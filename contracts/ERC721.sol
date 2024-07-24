@@ -3,12 +3,16 @@ pragma solidity ^0.8.0;
 
 import "./IERC721Metadata.sol";
 import "./IERC721Receiver.sol";
+import "./ERC165.sol";
 import "./Strings.sol";
+import "./IERC721.sol";
 
-contract ERC721 is IERC721Metadata {
+contract ERC721 is ERC165, IERC721, IERC721Metadata {
     using Strings for uint;
+
     string public name;
     string public symbol;
+
     mapping(address => uint) _balances;
     mapping(uint => address) _owners;
     mapping(uint => address) _tokenApprovals;
@@ -41,7 +45,7 @@ contract ERC721 is IERC721Metadata {
         _transfer(from, to, tokenId);
     }
 
-    function saveTransferFrom(
+    function safeTransferFrom(
         address from,
         address to,
         uint tokenId,
@@ -51,17 +55,22 @@ contract ERC721 is IERC721Metadata {
             _isApprovedOrOwner(msg.sender, tokenId),
             "You are not an owner or approved"
         );
-        _safeTransfer(from, to, tokenId);
+        _safeTransfer(from, to, tokenId, data);
     }
 
-    function _baseURI() internal pure virtual returns(string memory){
+
+    function _baseURI() internal pure virtual returns (string memory) {
         return "";
     }
 
-    function tokenURI(uint tokenId)public view _requireMinted(tokenId) returns (string memory){
+    function tokenURI(
+        uint tokenId
+    ) public view _requireMinted(tokenId) returns (string memory) {
         string memory baseURI;
-        return bytes(baseURI.length > 0)?
-        string(abi.encodePacked(baseURI, tokenId.toString()))
+        return
+            bytes(baseURI).length > 0
+                ? string(abi.encodePacked(baseURI, tokenId.toString()))
+                : "";
     }
 
     function approve(address to, uint tokenId) public {
@@ -74,11 +83,26 @@ contract ERC721 is IERC721Metadata {
         _tokenApprovals[tokenId] = to;
         emit Approval(_owner, to, tokenId);
     }
+    
+    function setApprovalForAll(
+        address operator,
+        bool approved
+    ) external{
+
+    }
 
     function ownerOf(
         uint tokenId
     ) public view _requireMinted(tokenId) returns (address) {
         return _owners[tokenId];
+    }
+
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view virtual override returns (bool) {
+        return
+            interfaceId == type(IERC721).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 
     function isApprovedForAll(
@@ -118,11 +142,11 @@ contract ERC721 is IERC721Metadata {
         _balances[to]++;
     }
 
-    function _safeTransfer(address from, address to, uint tokenId) internal {
+    function _safeTransfer(address from, address to, uint tokenId, bytes memory data) internal {
         _transfer(from, to, tokenId);
 
         require(
-            _checkOnERC721Received(from, to, tokenId),
+            _checkOnERC721Received(from, to, tokenId, data),
             "Non ERC721 receiver!"
         );
     }

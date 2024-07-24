@@ -8,5 +8,5 @@ interface IERC721Metadata is IERC721 {
 
     function symbol() external view returns(string memory);
         
-    function tokenURI() external view returns(string memory);
+    function tokenURI(uint tokenId) external view returns(string memory);
 }

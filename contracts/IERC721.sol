@@ -10,13 +10,13 @@ interface IERC721 {
 
     function ownerOf(uint tokenId) external view returns(address);
 
-    function saveTransferFrom(
+    function safeTransferFrom(
         address from,
         address to, 
         uint tokenId
     ) external;
 
-    function saveTransferFrom(
+    function safeTransferFrom(
         address from,
         address to, 
         uint tokenId,
