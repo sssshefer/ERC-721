@@ -58,7 +58,6 @@ contract ERC721 is ERC165, IERC721, IERC721Metadata {
         _safeTransfer(from, to, tokenId, data);
     }
 
-
     function _baseURI() internal pure virtual returns (string memory) {
         return "";
     }
@@ -83,12 +82,13 @@ contract ERC721 is ERC165, IERC721, IERC721Metadata {
         _tokenApprovals[tokenId] = to;
         emit Approval(_owner, to, tokenId);
     }
-    
-    function setApprovalForAll(
-        address operator,
-        bool approved
-    ) external{
 
+    function setApprovalForAll(address operator, bool approved) external {
+        require(msg.sender != operator, "Cannot approve to yourself");
+
+        _operatorApprovals[msg.sender][operator] = approved;
+
+        emit ApprovalForAll(msg.sender, operator, approved);
     }
 
     function ownerOf(
@@ -142,11 +142,16 @@ contract ERC721 is ERC165, IERC721, IERC721Metadata {
         _balances[to]++;
     }
 
-    function _safeTransfer(address from, address to, uint tokenId, bytes memory data) internal {
+    function _safeTransfer(
+        address from,
+        address to,
+        uint tokenId,
+        bytes memory data
+    ) internal {
         _transfer(from, to, tokenId);
 
         require(
-            _checkOnERC721Received(from, to, tokenId, data),
+            _checkOnERC721Received(from, to, tokenId),
             "Non ERC721 receiver!"
         );
     }
