@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/1d186f6e-f877-44a3-962b-c191faa8c6c0)
+
 # ERC721
 The ERC721 project provides a comprehensive implementation of the ERC721 standard for non-fungible tokens (NFTs) on the Ethereum blockchain. This project is designed to facilitate the creation, management, and transfer of unique digital assets. With a strong focus on security and extensibility, it includes additional features like metadata and URI Storage extensions
 
@@ -79,3 +81,4 @@ To run the ERC721 project locally, follow these steps:
     ```bash
     npx hardhat test
     ```
+<a href="https://ru.freepik.com/free-photo/3d-vizualizacia-kriptovaluty_17664289.htm#fromView=search&page=1&position=5&uuid=cc39cc06-6ae3-4b5f-9e2e-bb4737ff1690">Pic in the header is taken from freepic</a>
