@@ -7,7 +7,7 @@ import "./ERC165.sol";
 import "./Strings.sol";
 import "./IERC721.sol";
 
-contract ERC721 is ERC165, IERC721, IERC721Metadata {
+contract ERC721 is ERC165, IERC721, IERC721Metadata  {
     using Strings for uint;
 
     string public name;
@@ -118,12 +118,24 @@ contract ERC721 is ERC165, IERC721, IERC721Metadata {
         return _tokenApprovals[tokenId];
     }
 
-    function burn(uint tokenId) public virtual {
-        require(_isApprovedOrOwner(msg.sender, tokenId), "Not an owner");
+    function burn(uint256 tokenId) public virtual {
+        require(_isApprovedOrOwner(msg.sender, tokenId), "not owner!");
+
+        _burn(tokenId);
+    }
+
+    function _burn(uint tokenId) internal virtual {
         address owner = ownerOf(tokenId);
+
+        _beforeTokenTransfer(owner, address(0), tokenId);
+
         delete _tokenApprovals[tokenId];
         _balances[owner]--;
         delete _owners[tokenId];
+
+        emit Transfer(owner, address(0), tokenId);
+
+        _afterTokenTransfer(owner, address(0), tokenId);
     }
 
     function _safeMint(address to, uint tokenId) internal virtual {
