@@ -63,8 +63,8 @@ To run the ERC721 project locally, follow these steps:
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/sssshefer/ERC-721.git
-    cd ERC-721
+    git clone https://github.com/sssshefer/ERC721.git
+    cd ERC721
     ```
 
 2. **Install Dependencies**:
