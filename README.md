@@ -82,3 +82,4 @@ To run the ERC721 project locally, follow these steps:
     npx hardhat test
     ```
 <a href="https://ru.freepik.com/free-vector/cvetnoi-fon-nft-s-muzskim-personazem-sidasim-za-noutbukom-i-sozdausim-novuu-tokenovuu-ploskuu-vektornuu-illustraciu_31643419.htm#fromView=search&page=1&position=0&uuid=ff4edd72-7d82-4f37-83e4-9ef37166a323">The pic is from macrovector on Freepik</a>
+***Happy hacking***
